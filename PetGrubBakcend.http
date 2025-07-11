@@ -1,0 +1,6 @@
+@PetGrubBakcend_HostAddress = http://localhost:5220
+
+GET {{PetGrubBakcend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
