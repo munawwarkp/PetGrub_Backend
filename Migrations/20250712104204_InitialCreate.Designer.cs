@@ -12,8 +12,8 @@ using PetGrubBakcend.Data;
 namespace PetGrubBakcend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250710055306_AddProduct")]
-    partial class AddProduct
+    [Migration("20250712104204_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

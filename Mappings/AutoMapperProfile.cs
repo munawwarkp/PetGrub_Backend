@@ -10,9 +10,7 @@ namespace PetGrubBakcend.Mappings
         {
             CreateMap<UserRegistrationDto, User>().ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<AddCategoryDto, Category>().ForMember(dest => dest.Id, opt=>opt.Ignore());
-            CreateMap<ProductDto, Product>().ForMember(dest => dest.Id,opt => opt.Ignore());
-            CreateMap<PaginatedResultDto<ProductDto>, Product>();
-            CreateMap<PaginationParamsDto, Product>();
+            CreateMap<ProductDto, Product>().ForMember(dest => dest.Id,opt => opt.Ignore()).ReverseMap();
         }
     }
 }

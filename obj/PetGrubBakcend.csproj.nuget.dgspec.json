@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\bridgeon\\backend\\PetGrubBakcend\\PetGrubBakcend\\PetGrubBakcend.csproj": {}
+    "E:\\bridgeon\\backend\\e-com-backend\\PetGrubBakcend\\PetGrubBakcend.csproj": {}
   },
   "projects": {
-    "E:\\bridgeon\\backend\\PetGrubBakcend\\PetGrubBakcend\\PetGrubBakcend.csproj": {
+    "E:\\bridgeon\\backend\\e-com-backend\\PetGrubBakcend\\PetGrubBakcend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\bridgeon\\backend\\PetGrubBakcend\\PetGrubBakcend\\PetGrubBakcend.csproj",
+        "projectUniqueName": "E:\\bridgeon\\backend\\e-com-backend\\PetGrubBakcend\\PetGrubBakcend.csproj",
         "projectName": "PetGrubBakcend",
-        "projectPath": "E:\\bridgeon\\backend\\PetGrubBakcend\\PetGrubBakcend\\PetGrubBakcend.csproj",
+        "projectPath": "E:\\bridgeon\\backend\\e-com-backend\\PetGrubBakcend\\PetGrubBakcend.csproj",
         "packagesPath": "C:\\Users\\munaw\\.nuget\\packages\\",
-        "outputPath": "E:\\bridgeon\\backend\\PetGrubBakcend\\PetGrubBakcend\\obj\\",
+        "outputPath": "E:\\bridgeon\\backend\\e-com-backend\\PetGrubBakcend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
