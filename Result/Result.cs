@@ -9,6 +9,7 @@
         public static Result<T> Success(T data) => new Result<T>
         {
             isSuccess = true,
+            ErrorMessage = "fetched succesfully",
             Data = data
         };
 

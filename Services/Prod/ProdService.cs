@@ -54,6 +54,102 @@ namespace PetGrubBakcend.Services.Prod
    
         }
 
+        public async Task<List<ProductReadingDto>> GetProducts()
+        {
+            try
+            {
+                var products = await _prodRepository.GetProducts();
+                //if(products == null || products.Count == 0)
+                //{
+                    
+                //}
+                var mappedData = _mapper.Map<List<ProductReadingDto>>(products);
+                return mappedData;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
+        }
+
+
+        public async Task<Result<ProductReadingDto>> GetProductById(int id)
+        {
+            try
+            {
+                var produdct = await _prodRepository.GetProductById(id);
+                if (produdct == null)
+                {
+                    return new Result<ProductReadingDto>
+                    {
+                        isSuccess = true,
+                        ErrorMessage = "nulllll!,product not found with corresponding id"
+                    };
+                }
+
+                var mappedData = _mapper.Map<ProductReadingDto>(produdct);
+               
+                return Result<ProductReadingDto>.Success(mappedData);
+
+                //return new Result<ProductDto>
+                //{
+                //    isSuccess = true,
+                //    Data = mappedData
+                //};
+            }
+            catch(Exception ex)
+            {
+                return Result<ProductReadingDto>.Failure($"error : {ex.Message}");
+            }
+            
+        }
+
+        public async Task<List<ProductReadingDto>> GetProductsByCategoryName(string name)
+        {
+            try
+            {
+                var productsByCat = await _prodRepository.GetProductsByCategoryName(name);
+                var mappedProducts = _mapper.Map<List<ProductReadingDto>>(productsByCat);
+                return mappedProducts;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public async Task<ProductReadingDto> DeleteProductAsync(int id)
+        {
+            try
+            {
+                var itemToDel = await _prodRepository.GetProductById(id);
+                if (itemToDel == null)
+                {
+                    throw new KeyNotFoundException($"product with id {id} not found");
+                }
+                _mapper.Map<ProductReadingDto>(itemToDel);
+                await _prodRepository.DeleteProductAsync(itemToDel);
+                return _mapper.Map<ProductReadingDto>(itemToDel);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+           
+        }
+
+        public async Task<List<ProductReadingDto>> SearchProducts(string str)
+        {
+            var products = await _prodRepository.SearchProducts(str);
+            if(products == null)
+            {
+                throw new  KeyNotFoundException("no product found");
+            }
+            var mappedProducts =  _mapper.Map<List<ProductReadingDto>>(products);
+            return mappedProducts;
+            
+        }
 
     }
 }

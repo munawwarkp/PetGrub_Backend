@@ -20,5 +20,7 @@ namespace PetGrubBakcend.Entities
         public int CategoryID {  get; set; }
         public Category Category { get; set; }
 
+        public ICollection<Wishlist> wishlists { get; set; }
+
     }
 }

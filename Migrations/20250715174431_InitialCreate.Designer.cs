@@ -12,7 +12,7 @@ using PetGrubBakcend.Data;
 namespace PetGrubBakcend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250712104204_InitialCreate")]
+    [Migration("20250715174431_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -162,9 +162,6 @@ namespace PetGrubBakcend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -174,6 +171,21 @@ namespace PetGrubBakcend.Migrations
                         .IsUnique();
 
                     b.ToTable("Wishlist");
+                });
+
+            modelBuilder.Entity("ProductWishlist", b =>
+                {
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WishlistId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsId", "WishlistId");
+
+                    b.HasIndex("WishlistId");
+
+                    b.ToTable("ProductWishlist");
                 });
 
             modelBuilder.Entity("PetGrubBakcend.Entities.Product", b =>
@@ -207,6 +219,21 @@ namespace PetGrubBakcend.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProductWishlist", b =>
+                {
+                    b.HasOne("PetGrubBakcend.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PetGrubBakcend.Entities.Wishlist", null)
+                        .WithMany()
+                        .HasForeignKey("WishlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PetGrubBakcend.Entities.Category", b =>

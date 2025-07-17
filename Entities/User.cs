@@ -19,7 +19,7 @@ namespace PetGrubBakcend.Entities
         
         public int RoleId { get; set; } //forign key to role
         public Role Role { get; set; } //navigation : one user-one role
-        public Wishlist Wishlist { get; set; }
+        public ICollection<Wishlist> Wishlist { get; set; }
     }
  
 }

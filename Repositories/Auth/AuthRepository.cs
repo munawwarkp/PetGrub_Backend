@@ -17,11 +17,13 @@ namespace PetGrubBakcend.Repositories.AuthRepository
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly IJWTGenerator _jwtToken;
-        public AuthRepository(AppDbContext context, IMapper mapper,IJWTGenerator jwtToken )
+        private readonly ILogger<AuthRepository> _logger;
+        public AuthRepository(AppDbContext context, IMapper mapper,IJWTGenerator jwtToken,ILogger<AuthRepository> logger )
         {
             _context = context;
             _mapper = mapper;
             _jwtToken = jwtToken;
+            _logger = logger;
         }
 
         public async Task<ApiResponse<object>> Register(UserRegistrationDto userRegistrationDto)
@@ -93,9 +95,11 @@ namespace PetGrubBakcend.Repositories.AuthRepository
                     {
                        UserName = loginUser.FirstName + " " + loginUser.LastName,
                        UserEmail = loginUser.Email,
-                       Role = loginUser.Role.ToString(),
+                       Role = loginUser.RoleId.ToString(),
                        Token = token,
                        Id = loginUser.Id,
+                       RefreshToken = refreshToken
+                       
                     }
                 };
             }
@@ -123,6 +127,8 @@ namespace PetGrubBakcend.Repositories.AuthRepository
               //generate new token
               var newAccessToken = _jwtToken.GenerateToken(user);
               var newRefreshToken = GenerateRefreshToken();
+
+                _logger.LogInformation($"refresh token = {newRefreshToken}");
 
                 user.RefreshToken = newRefreshToken;
                 user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
@@ -173,7 +179,8 @@ namespace PetGrubBakcend.Repositories.AuthRepository
                 return new ApiResponse<object>
                 {
                     StatusCode = 200,
-                    Message = "Admin Registered Successfully"
+                    Message = "Admin Registered Successfully",
+                    Data = MappedAdmin
                 };
             }
             catch(Exception ex)

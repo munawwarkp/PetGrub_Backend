@@ -4,15 +4,11 @@ namespace PetGrubBakcend.Entities
 {
     public class Wishlist
     {
-        [Required]
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public int ProductId { get; set; }
 
-        //foreign key
-        [Required]
-        public int ProductId {  get; set; }
-        [Required]
-        public int UserId {  get; set; }
-
-        public User User { get; set; } //one per user
+        public  User User { get; set; }
+        public  Product Product { get; set; }
     }
 }

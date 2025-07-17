@@ -10,6 +10,7 @@ namespace PetGrubBakcend.Data
         public DbSet<User> Users {  get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Wishlist> Wishlist { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,30 @@ namespace PetGrubBakcend.Data
             modelBuilder.Entity<Product>()
                 .Property(e => e.Price)
                 .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.IsBlocked)
+                .HasDefaultValue(false);
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Wishlist>()
+                .HasOne(w => w.User)
+                .WithMany(u => u.Wishlist)
+                .HasForeignKey(w => w.UserId);
+
+            modelBuilder.Entity<Wishlist>()
+                .HasOne(w => w.Product)
+                .WithMany(p => p.wishlists)
+                .HasForeignKey(w => w.ProductId);
+
+            modelBuilder.Entity<Wishlist>()
+                .HasIndex(w => new { w.UserId, w.ProductId })
+                .IsUnique();
         }
 
     }

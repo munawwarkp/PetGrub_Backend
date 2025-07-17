@@ -96,7 +96,6 @@ namespace PetGrubBakcend.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -106,6 +105,30 @@ namespace PetGrubBakcend.Migrations
                         name: "FK_Wishlist_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductWishlist",
+                columns: table => new
+                {
+                    ProductsId = table.Column<int>(type: "int", nullable: false),
+                    WishlistId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductWishlist", x => new { x.ProductsId, x.WishlistId });
+                    table.ForeignKey(
+                        name: "FK_ProductWishlist_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductWishlist_Wishlist_WishlistId",
+                        column: x => x.WishlistId,
+                        principalTable: "Wishlist",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -125,6 +148,11 @@ namespace PetGrubBakcend.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductWishlist_WishlistId",
+                table: "ProductWishlist",
+                column: "WishlistId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
@@ -139,6 +167,9 @@ namespace PetGrubBakcend.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ProductWishlist");
+
             migrationBuilder.DropTable(
                 name: "Products");
 
