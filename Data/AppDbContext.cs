@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetGrubBakcend.DTOs;
 using PetGrubBakcend.Entities;
 
 namespace PetGrubBakcend.Data
@@ -11,6 +12,7 @@ namespace PetGrubBakcend.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Wishlist> Wishlist { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +49,37 @@ namespace PetGrubBakcend.Data
             modelBuilder.Entity<Wishlist>()
                 .HasIndex(w => new { w.UserId, w.ProductId })
                 .IsUnique();
+            modelBuilder.Entity<CartReadDto>()
+                .HasNoKey();
+
+            modelBuilder.Entity<CartReadDto>()
+                .Property(c => c.Price)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<CartReadDto>()
+                .Property(c => c.TotalPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.CartItems)
+                .HasForeignKey(c => c.UserId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(c => c.Product)
+                .WithMany(p => p.CartItems)
+                .HasForeignKey(c => c.ProductId);
+
+
+            //modelBuilder.Entity<AddToCartDto>()
+            //    .Property(c => c.Quantity)
+            //    .HasDefaultValue(1);
+            //modelBuilder.Entity<AddToCartDto>()
+            //    .HasNoKey();
+
+            //modelBuilder.Entity<CartReadResponseDto>()
+            //    .Property(c => c.TotalCartPrice)
+            //    .HasColumnType("decimal(18,2)");
         }
 
     }

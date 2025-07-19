@@ -9,11 +9,13 @@ using PetGrubBakcend.CustomMiddleware;
 using PetGrubBakcend.Data;
 using PetGrubBakcend.Mappings;
 using PetGrubBakcend.Repositories.AuthRepository;
+using PetGrubBakcend.Repositories.Cart;
 using PetGrubBakcend.Repositories.Categ;
 using PetGrubBakcend.Repositories.Prod;
 using PetGrubBakcend.Repositories.wishlist;
 using PetGrubBakcend.Services.Auth;
 using PetGrubBakcend.Services.AuthServices;
+using PetGrubBakcend.Services.Cart;
 using PetGrubBakcend.Services.Categ;
 using PetGrubBakcend.Services.Prod;
 using PetGrubBakcend.Services.wishlist;
@@ -77,6 +79,8 @@ namespace PetGrubBakcend
             builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
             builder.Services.AddScoped<IWishlistService, WishlistService>();
 
+            builder.Services.AddScoped<ICartRepesitory, CartRepository>();
+            builder.Services.AddScoped<ICartService, CartService>();
             //connection string
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Error occured at 'DefaultConnection'");

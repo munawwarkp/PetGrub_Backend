@@ -64,6 +64,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "PetGrubBakcend.Controllers.CartController",
+    "Method": "AddToCart",
+    "RelativePath": "api/Cart/AddToCart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.CartController",
+    "Method": "Get",
+    "RelativePath": "api/Cart/CartItems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "PetGrubBakcend.Controllers.CategoryController",
     "Method": "AddCateg",
     "RelativePath": "api/Category/Add-Category",
