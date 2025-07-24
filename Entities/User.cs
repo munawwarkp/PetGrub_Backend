@@ -21,6 +21,8 @@ namespace PetGrubBakcend.Entities
         public Role Role { get; set; } //navigation : one user-one role
         public ICollection<Wishlist> Wishlist { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<AddressUser> Address { get; set; }
     }
  
 }

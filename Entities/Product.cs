@@ -22,6 +22,5 @@ namespace PetGrubBakcend.Entities
 
         public ICollection<Wishlist> wishlists { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
-
     }
 }

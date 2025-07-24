@@ -8,16 +8,22 @@ using PetGrubBakcend.CloudinaryS;
 using PetGrubBakcend.CustomMiddleware;
 using PetGrubBakcend.Data;
 using PetGrubBakcend.Mappings;
+using PetGrubBakcend.Repositories.Address;
 using PetGrubBakcend.Repositories.AuthRepository;
 using PetGrubBakcend.Repositories.Cart;
 using PetGrubBakcend.Repositories.Categ;
+using PetGrubBakcend.Repositories.Ord;
 using PetGrubBakcend.Repositories.Prod;
+using PetGrubBakcend.Repositories.Usr;
 using PetGrubBakcend.Repositories.wishlist;
+using PetGrubBakcend.Services.Address;
 using PetGrubBakcend.Services.Auth;
 using PetGrubBakcend.Services.AuthServices;
 using PetGrubBakcend.Services.Cart;
 using PetGrubBakcend.Services.Categ;
+using PetGrubBakcend.Services.Ord;
 using PetGrubBakcend.Services.Prod;
+using PetGrubBakcend.Services.Usr;
 using PetGrubBakcend.Services.wishlist;
 
 namespace PetGrubBakcend
@@ -81,6 +87,18 @@ namespace PetGrubBakcend
 
             builder.Services.AddScoped<ICartRepesitory, CartRepository>();
             builder.Services.AddScoped<ICartService, CartService>();
+
+            builder.Services.AddScoped<IAddressRepository,AddressRepository>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
+
+            builder.Services.AddScoped<IProdRepository,ProdRepository>();
+            builder.Services.AddScoped<IProdService, ProdService>();
+
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             //connection string
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Error occured at 'DefaultConnection'");

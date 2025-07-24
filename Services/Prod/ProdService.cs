@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PetGrubBakcend.ApiResponse;
 using PetGrubBakcend.CloudinaryS;
 using PetGrubBakcend.DTOs;
 using PetGrubBakcend.Entities;
@@ -53,6 +54,64 @@ namespace PetGrubBakcend.Services.Prod
             }   
    
         }
+
+
+        public async Task<ApiResponse<ProductReadingDto>> UpdateProduct(int productId, ProductUpdateDto productUpdateDto)
+        {
+            try
+            {
+              var product =  await _prodRepository.GetExistingProduct(productId);
+                if(product == null)
+                {
+                    return new ApiResponse<ProductReadingDto>
+                    {
+                        StatusCode = 404,
+                        Message = "Product not found"
+                    };
+                }
+
+                var cartExist = await _prodRepository.GetExistingCategory(product.CategoryID);
+                if(cartExist == null)
+                {
+                    return new ApiResponse<ProductReadingDto>
+                    {
+                        StatusCode = 404,
+                        Message = "Category not found"
+                    };
+                }
+
+                product.Title = productUpdateDto.Title;
+                product.Brand = productUpdateDto.Brand;
+                product.Price = productUpdateDto.Price;
+                product.Description = productUpdateDto.Description;
+
+
+                if (productUpdateDto.Image != null)
+                {
+                    var uploadImage = await _cloudinaryService.UploadImageAsync(productUpdateDto.Image);
+                    product.ImageUrl = uploadImage;
+                }
+                await _prodRepository.UpdateProduct(product);
+
+                var data = _mapper.Map<ProductReadingDto>(product);
+
+                return new ApiResponse<ProductReadingDto>
+                {
+                    StatusCode = 200,
+                    Message = "product updated succesfully",
+                    Data = data
+                };
+            }
+            catch(Exception ex)
+            {
+                return new ApiResponse<ProductReadingDto>
+                {
+                    StatusCode = 500,
+                    Message = $"error occured while updating product : {ex.Message}"
+                };
+            }
+        }
+
 
         public async Task<List<ProductReadingDto>> GetProducts()
         {

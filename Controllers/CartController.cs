@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using PetGrubBakcend.DTOs;
 using PetGrubBakcend.Services.Cart;
 
 namespace PetGrubBakcend.Controllers
@@ -31,6 +33,37 @@ namespace PetGrubBakcend.Controllers
             bool uId = int.TryParse(userIdStr, out int userId);
            var res = await _service.AddToCart(productId,userId);
             return StatusCode(res.StatusCode,res);
+        }
+
+        [HttpDelete("Delete-CartItem")]
+        public async Task<IActionResult> DeleteCart(int productId)
+        {
+           var userIdStr = HttpContext.Items["UserId"]?.ToString();
+            bool uId = int.TryParse(userIdStr, out int userId);
+
+            var res = await _service.RemoveFromCart(userId, productId);
+            return StatusCode(res.StatusCode, res);
+        }
+
+        [HttpPatch("Changing-quantity")]
+        public async Task<IActionResult> UpdateQuantity([FromBody] UpdateCartActionDto updateCartActionDto)
+        {
+            var idStr = HttpContext.Items["UserId"]?.ToString();
+            var id = int.TryParse(idStr, out int idUser);
+ 
+            var res = await _service.IncreaseOrDecreaseQuantity(updateCartActionDto,idUser);
+            return StatusCode(res.StatusCode, res);
+        }
+
+        [HttpDelete("Clear-cart")]
+        public async Task<IActionResult> Clear()
+        {
+          var strId =  HttpContext.Items["UserId"]?.ToString();
+            bool idInt = int.TryParse(strId,out int userId);
+
+           var res = await _service.ClearCart(userId);
+            return StatusCode(res.StatusCode, res); 
+
         }
     }
 }

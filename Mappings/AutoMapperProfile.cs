@@ -35,7 +35,10 @@ namespace PetGrubBakcend.Mappings
                     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                     .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
                     .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
-                     
+
+            CreateMap<AddressCreateDto, AddressUser>();
+            CreateMap<AddressUser, AddressReadDto>();
+
 
 
         }

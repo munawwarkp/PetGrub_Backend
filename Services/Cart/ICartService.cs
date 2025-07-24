@@ -9,6 +9,11 @@ namespace PetGrubBakcend.Services.Cart
         Task<ApiResponse<CartReadDto>> AddToCart(int userId, int productId);
 
         //Task<ApiResponse<CartReadDto>> AddToCart(AddToCartDto addToCartDto,int userId);
+        Task<ApiResponse<CartReadDto>> RemoveFromCart(int userId,int productId);
+
+        Task<ApiResponse<CartReadDto>> IncreaseOrDecreaseQuantity(UpdateCartActionDto updateCartActionDto,int userId);
+
+        Task<ApiResponse<object>> ClearCart(int userId);
 
     }
 }

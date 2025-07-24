@@ -40,6 +40,12 @@ namespace PetGrubBakcend.Repositories.Cart
 
         }
 
+        public async Task<Product?> GetProductWithId(int productId)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            return product;
+        }
+
         public async Task<CartItem?> GetCartItem(int userId,int productId)
         {
           var res =  await _context.CartItems.Include(c => c.User).FirstOrDefaultAsync(c => c.ProductId==productId && c.UserId == userId);
@@ -57,7 +63,23 @@ namespace PetGrubBakcend.Repositories.Cart
         {
             _context.CartItems.Update(cartItem);
             await _context.SaveChangesAsync();
-        } 
+        }
+
+        public async Task RemoveProductFromCart(CartItem cartItem)
+        {
+            _context.CartItems.Remove(cartItem);
+            await _context.SaveChangesAsync();
+        }
+        public async Task IncreaseOrDecreaseQuantity(CartItem cartItem)
+        {
+           await _context.SaveChangesAsync();
+        }
+        public async Task ClearCart(int userId)
+        {
+           
+            await _context.Database.ExecuteSqlRawAsync("delete from CartItems where UserId = {0}",userId);
+            await _context.SaveChangesAsync();
+        }
 
 
     }

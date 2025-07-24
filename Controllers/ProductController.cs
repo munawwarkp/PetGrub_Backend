@@ -48,6 +48,17 @@ namespace PetGrubBakcend.Controllers
                 };
             }
         }
+
+        [Authorize(Policy ="AdminOnly")]
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> UpdateProduct(int productId,[FromForm]ProductUpdateDto productUpdateDto)
+        {
+           var res = await _prodService.UpdateProduct(productId, productUpdateDto);
+            return StatusCode(res.StatusCode, res);
+        }
+
+
+
         [Authorize]
         [HttpGet("GetProducts")]
         public async Task<ApiResponse<List<ProductReadingDto>>> GetAll()

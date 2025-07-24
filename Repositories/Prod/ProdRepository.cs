@@ -19,6 +19,12 @@ namespace PetGrubBakcend.Repositories.Prod
             //_mapper = mapper;
             //_cloudinary = cloudinary;
         }
+        public async Task<Product?> GetExistingProduct(int productId)
+        {
+           return await _context.Products.FindAsync(productId);
+   
+        }
+
         public async Task<Product> AddProductAsync(Product product)
         {
             try
@@ -73,6 +79,17 @@ namespace PetGrubBakcend.Repositories.Prod
             {
                 throw;
             }
+        }
+
+        public async Task UpdateProduct(Product product)
+        {
+             _context.Products.Update(product);
+             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Category?> GetExistingCategory(int categoryId)
+        {
+            return await _context.Categories.FindAsync(categoryId);
         }
 
 

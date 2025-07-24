@@ -9,6 +9,7 @@ namespace PetGrubBakcend.Services.Prod
     {
         Task<Result<ProductDto>> AddProductAsync(ProductDto productDto);
         Task<List<ProductReadingDto>> GetProducts();
+        Task<ApiResponse<ProductReadingDto>> UpdateProduct(int productId,ProductUpdateDto productUpdateDto);
 
         Task<Result<ProductReadingDto>> GetProductById(int id);
         Task<List<ProductReadingDto>> GetProductsByCategoryName(string name);
