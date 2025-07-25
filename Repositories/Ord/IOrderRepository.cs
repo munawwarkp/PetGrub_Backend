@@ -1,4 +1,5 @@
 ﻿using PetGrubBakcend.ApiResponse;
+using PetGrubBakcend.DTOs;
 using PetGrubBakcend.Entities;
 
 namespace PetGrubBakcend.Repositories.Ord
@@ -9,9 +10,11 @@ namespace PetGrubBakcend.Repositories.Ord
         Task<AddressUser?> GetUserAddress(int userId);
         Task CreateOrderDistinctProduct(Order order);
 
+        Task CreateBulkOrder(Order order);
+        Task<List< OrderReadDto>> GetOrderDetails(int userId);
+        Task<List<OrderReadDto>> GetOrderDetailsWhole();
 
-        //Task GetOrderDetailsById(int id);
-        //Task CartDetailsById(int id);
+
 
         //razor pay
         //Task<string> RazorPayOrderCreate(long price);

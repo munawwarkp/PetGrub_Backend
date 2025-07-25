@@ -23,6 +23,7 @@ using PetGrubBakcend.Services.Cart;
 using PetGrubBakcend.Services.Categ;
 using PetGrubBakcend.Services.Ord;
 using PetGrubBakcend.Services.Prod;
+using PetGrubBakcend.Services.Razorpay;
 using PetGrubBakcend.Services.Usr;
 using PetGrubBakcend.Services.wishlist;
 
@@ -99,6 +100,8 @@ namespace PetGrubBakcend
 
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+
+            builder.Services.AddScoped<IRazorPayService, RazorpayService>();
             //connection string
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Error occured at 'DefaultConnection'");

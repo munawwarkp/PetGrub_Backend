@@ -1,4 +1,6 @@
-﻿namespace PetGrubBakcend.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace PetGrubBakcend.Entities
 {
     public class CartItem
     {
@@ -12,6 +14,7 @@
 
         //navigation property
         public User User { get; set; }
+        [JsonIgnore]
         public Product Product { get; set; }
 
     }

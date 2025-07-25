@@ -18,7 +18,7 @@ namespace PetGrubBakcend.Entities
         [Required]
         public decimal TotalAmount {  get; set; }
         [Required]
-        public string? status {  get; set; }
+        public string ? status {  get; set; }
         public string? PaymentMethod {  get; set; }
 
 
@@ -27,7 +27,7 @@ namespace PetGrubBakcend.Entities
 
         public AddressUser? ShippingAddress { get; set; }
 
-        public ICollection<OrderItem>? OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
         public Product? Product { get; set; }
        
     }

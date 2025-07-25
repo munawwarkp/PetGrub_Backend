@@ -39,7 +39,7 @@ namespace PetGrubBakcend.Mappings
             CreateMap<AddressCreateDto, AddressUser>();
             CreateMap<AddressUser, AddressReadDto>();
 
-
+            CreateMap<Order,OrderReadDto>();
 
         }
     }

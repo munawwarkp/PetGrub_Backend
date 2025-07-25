@@ -201,6 +201,64 @@
   },
   {
     "ContainingType": "PetGrubBakcend.Controllers.OrderController",
+    "Method": "PostBulkOrder",
+    "RelativePath": "api/Order/BulkCartOrder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addressId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.OrderController",
+    "Method": "GetOrders",
+    "RelativePath": "api/Order/GetOrderDetails",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.OrderController",
+    "Method": "CreateOrder",
+    "RelativePath": "api/Order/Razor-CreateOrder",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "price",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.OrderController",
+    "Method": "RazorPaymentVerify",
+    "RelativePath": "api/Order/Razor-PaymentVerify",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "razorPay",
+        "Type": "PetGrubBakcend.DTOs.PaymentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.OrderController",
     "Method": "CreateSingleOrder",
     "RelativePath": "api/Order/SingleProductOrder",
     "HttpMethod": "POST",
@@ -218,6 +276,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.OrderController",
+    "Method": "GetWhole",
+    "RelativePath": "api/Order/WholeOrdersForAdmin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

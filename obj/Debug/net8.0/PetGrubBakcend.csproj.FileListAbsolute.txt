@@ -534,3 +534,5 @@ E:\bridgeon\backend\e-com-backend\PetGrubBakcend\obj\Debug\net8.0\refint\PetGrub
 E:\bridgeon\backend\e-com-backend\PetGrubBakcend\obj\Debug\net8.0\PetGrubBakcend.pdb
 E:\bridgeon\backend\e-com-backend\PetGrubBakcend\obj\Debug\net8.0\PetGrubBakcend.genruntimeconfig.cache
 E:\bridgeon\backend\e-com-backend\PetGrubBakcend\obj\Debug\net8.0\ref\PetGrubBakcend.dll
+E:\bridgeon\backend\e-com-backend\PetGrubBakcend\bin\Debug\net8.0\BouncyCastle.Crypto.dll
+E:\bridgeon\backend\e-com-backend\PetGrubBakcend\bin\Debug\net8.0\Razorpay.dll

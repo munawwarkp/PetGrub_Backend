@@ -108,9 +108,10 @@ namespace PetGrubBakcend.Data
             modelBuilder.Entity<OrderItem>()
                 .Property(o => o.TotalPrice)
                 .HasPrecision(18, 2);
-                
- 
-            
+
+            modelBuilder.Entity<OrderReadDto>().HasNoKey().ToView(null); //for using raw sql
+
+
 
 
 
