@@ -25,9 +25,20 @@ namespace PetGrubBakcend.Controllers
 
         [Authorize(Policy ="AdminOnly")]
         [HttpGet("GetUser/{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        public async Task<IActionResult> GetUser([FromRoute]int id)
         {
             var res = await _service.GetUserById(id);
+            return StatusCode(res.StatusCode, res);
+        }
+
+        [Authorize(Policy ="UserOnly")]
+        [HttpGet("GetUserForUser")]
+        public async Task <IActionResult> GetUserForUser()
+        {
+            var userIdStr = HttpContext.Items["UserId"]?.ToString();
+            bool id = int.TryParse(userIdStr, out int userId);
+
+            var res = await _service.GetUserById(userId);
             return StatusCode(res.StatusCode, res);
         }
 

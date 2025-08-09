@@ -65,7 +65,7 @@ namespace PetGrubBakcend.Services.Ord
                         OrderId = order.Id,
                         Item = existingProduct.Brand + " " + existingProduct.Title,
                         Quantity = orderItem.Quantity,
-                        Price = orderItem.TotalPrice
+                        UnitPrice = orderItem.UnitPrice
                     };
                     
                     return new ApiResponse<object>

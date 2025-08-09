@@ -1,5 +1,6 @@
 ﻿using PetGrubBakcend.ApiResponse;
 using PetGrubBakcend.DTOs;
+using PetGrubBakcend.Entities;
 
 namespace PetGrubBakcend.Services.Cart
 {
@@ -14,6 +15,8 @@ namespace PetGrubBakcend.Services.Cart
         Task<ApiResponse<CartReadDto>> IncreaseOrDecreaseQuantity(UpdateCartActionDto updateCartActionDto,int userId);
 
         Task<ApiResponse<object>> ClearCart(int userId);
+
+        //Task<ApiResponse<List<CartReadDto>>> UpdateCartItem(CartItem cartItem);
 
     }
 }

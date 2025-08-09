@@ -17,14 +17,14 @@ namespace PetGrubBakcend.Controllers
         }
 
         [HttpPost("SignUp")]
-        public async Task<IActionResult> Register(UserRegistrationDto userRegistrationDto)
+        public async Task<IActionResult> Register([FromBody]UserRegistrationDto userRegistrationDto)
         {
            var response = await _authService.Register(userRegistrationDto);
             return StatusCode(response.StatusCode, response);
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+        public async Task<IActionResult> Login([FromBody]UserLoginDto userLoginDto)
         {
             var response =  await _authService.Login(userLoginDto);
             return StatusCode(response.StatusCode, response);

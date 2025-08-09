@@ -133,6 +133,22 @@
   },
   {
     "ContainingType": "PetGrubBakcend.Controllers.CartController",
+    "Method": "GetCartUser",
+    "RelativePath": "api/Cart/CartItemsForAdmin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.CartController",
     "Method": "UpdateQuantity",
     "RelativePath": "api/Cart/Changing-quantity",
     "HttpMethod": "PATCH",
@@ -223,6 +239,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.OrderController",
+    "Method": "GetUserOrder",
+    "RelativePath": "api/Order/GetUserOrder-Admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -318,7 +350,7 @@
       },
       {
         "Name": "Price",
-        "Type": "System.Decimal",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -328,7 +360,7 @@
       },
       {
         "Name": "CategoryId",
-        "Type": "System.Int32",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -539,6 +571,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PetGrubBakcend.Controllers.UserController",
+    "Method": "GetUserForUser",
+    "RelativePath": "api/User/GetUserForUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

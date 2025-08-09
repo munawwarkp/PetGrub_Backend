@@ -1,4 +1,5 @@
-﻿using CloudinaryDotNet;
+﻿using System.Text;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Mvc;
 using PetGrubBakcend.Data;
 using PetGrubBakcend.DTOs;
@@ -53,32 +54,61 @@ namespace PetGrubBakcend.Services.Razorpay
 
         //verify the payment signature returned by razorpay after checkout
 
+
         public async Task<bool> verifyPaymentSignatureAsync(PaymentDto payment)
         {
             if (payment == null ||
-               string.IsNullOrEmpty(payment.razorpay_payment_id) ||
-               string.IsNullOrEmpty(payment.razorpay_order_id) ||
-               string.IsNullOrEmpty(payment.razorpay_signature))
-            {
+                string.IsNullOrWhiteSpace(payment.razorpay_payment_id) ||
+                string.IsNullOrWhiteSpace(payment.razorpay_order_id) ||
+                string.IsNullOrWhiteSpace(payment.razorpay_signature))
                 return false;
-            }
+
             try
             {
-                var attributes = new Dictionary<string, string>()
-                {
-                     { "razorpay_payment_id", payment.razorpay_payment_id },
-                     { "razorpay_order_id", payment.razorpay_order_id },
-                     { "razorpay_signature", payment.razorpay_signature }
-                };
+                string secret = _configuration["Razorpay:KeySecret"]; // FIXED key name
+                string payload = $"{payment.razorpay_order_id}|{payment.razorpay_payment_id}";
 
-                Utils.verifyPaymentLinkSignature(attributes);
-                return true;
+                using var hmac = new System.Security.Cryptography.HMACSHA256(Encoding.UTF8.GetBytes(secret));
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(payload));
+                string generatedSignature = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+
+                return generatedSignature == payment.razorpay_signature;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }
         }
+
+
+
+
+        //public async Task<bool> verifyPaymentSignatureAsync(PaymentDto payment)
+        //{
+        //    if (payment == null ||
+        //       string.IsNullOrEmpty(payment.razorpay_payment_id) ||
+        //       string.IsNullOrEmpty(payment.razorpay_order_id) ||
+        //       string.IsNullOrEmpty(payment.razorpay_signature))
+        //    {
+        //        return false;
+        //    }
+        //    try
+        //    {
+        //        var attributes = new Dictionary<string, string>()
+        //        {
+        //             { "razorpay_payment_id", payment.razorpay_payment_id },
+        //             { "razorpay_order_id", payment.razorpay_order_id },
+        //             { "razorpay_signature", payment.razorpay_signature }
+        //        };
+
+        //        Utils.verifyPaymentLinkSignature(attributes);
+        //        return true;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
     }
 

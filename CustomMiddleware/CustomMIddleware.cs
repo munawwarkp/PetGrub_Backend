@@ -13,12 +13,33 @@ namespace PetGrubBakcend.CustomMiddleware
             _logger = logger;
         }
 
+        //public async Task InvokeAsync(HttpContext httpContext)
+        //{
+        //    if (httpContext.User.Identity?.IsAuthenticated == true)
+        //    {
+        //        var userId = httpContext.User.FindFirstValue("userId")
+        //                      ?? httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        //        if (userId != null)
+        //        {
+        //            httpContext.Items["UserId"] = userId;
+        //        }
+        //        else
+        //        {
+        //            _logger.LogWarning("No userId found in JWT claims.");
+        //        }
+        //    }
+
+        //    await _next(httpContext);
+        //}
+
+
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            if(httpContext.User.Identity?.IsAuthenticated == true)
+            if (httpContext.User.Identity?.IsAuthenticated == true)
             {
                 var userId = httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if(userId != null)
+                if (userId != null)
                 {
                     httpContext.Items["UserId"] = userId;
                 }
@@ -27,7 +48,7 @@ namespace PetGrubBakcend.CustomMiddleware
                     _logger.LogInformation("No NameIdentifier found in the jwt token");
                 }
             }
-           await _next(httpContext);
+            await _next(httpContext);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace PetGrubBakcend.Controllers
         }
         [Authorize(Policy = "AdminOnly")]
         [HttpPost("Add-Product")]
-        public async Task<ApiResponse<ProductDto>> AddProd(ProductDto addProductDto)
+        public async Task<ApiResponse<ProductDto>> AddProd([FromForm]ProductDto addProductDto)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace PetGrubBakcend.Controllers
 
 
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("GetProducts")]
         public async Task<ApiResponse<List<ProductReadingDto>>> GetAll()
         {
@@ -93,7 +93,8 @@ namespace PetGrubBakcend.Controllers
 
 
         [HttpGet("Product-By-Id")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<ApiResponse<ProductReadingDto>> GetById(int id)
         {
             try
@@ -118,7 +119,7 @@ namespace PetGrubBakcend.Controllers
         }
 
         [HttpGet("Product-by-Category")]
-        [Authorize]
+        //[Authorize]
         public async Task<ApiResponse<List<ProductReadingDto>>> GetByCategory(string name)
         {
             try
@@ -152,7 +153,7 @@ namespace PetGrubBakcend.Controllers
         }
 
         [HttpDelete("Delete")]
-        [Authorize(Roles ="admin")]
+        [Authorize(Policy ="AdminOnly")]
         public async Task<ApiResponse<ProductReadingDto>> DeleteProduct(int id)
         {
             try
@@ -174,7 +175,7 @@ namespace PetGrubBakcend.Controllers
         }
 
         [HttpGet("Search")]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<ApiResponse<List<ProductReadingDto>>> Search(string str)
         {
             try

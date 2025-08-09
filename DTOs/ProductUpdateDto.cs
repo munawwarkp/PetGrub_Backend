@@ -9,9 +9,9 @@ namespace PetGrubBakcend.DTOs
         public IFormFile ?Image { get; set; } //accepting uploaded image file
         public string? Brand { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
         public string? Description { get; set; }
         
-        public int CategoryId {  get; set; }
+        public int? CategoryId {  get; set; }
     }
 }

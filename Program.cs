@@ -37,6 +37,20 @@ namespace PetGrubBakcend
 
             // Add services to the container.
 
+            //Add CORS
+
+            builder.Services.AddCors(option =>
+            {
+                option.AddPolicy("AllowReactApp",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                    });
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -156,6 +170,8 @@ namespace PetGrubBakcend
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowReactApp");
 
             app.UseAuthentication();
             app.UseMiddleware<CustomMIddleware>();

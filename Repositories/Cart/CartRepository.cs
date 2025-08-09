@@ -48,7 +48,8 @@ namespace PetGrubBakcend.Repositories.Cart
 
         public async Task<CartItem?> GetCartItem(int userId,int productId)
         {
-          var res =  await _context.CartItems.Include(c => c.User).FirstOrDefaultAsync(c => c.ProductId==productId && c.UserId == userId);
+            var res =  await _context.CartItems.Include(c => c.User).FirstOrDefaultAsync(c => c.ProductId==productId && c.UserId == userId);
+
             return res;
         }
 

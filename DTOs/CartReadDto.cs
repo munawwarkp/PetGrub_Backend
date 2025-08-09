@@ -2,6 +2,7 @@
 {
     public class CartReadDto
     {
+        public int Id { get; set; }
         public int ProductId {  get; set; } //for refernce
         public string Title {  get; set; }
         public string Brand {  get; set; }

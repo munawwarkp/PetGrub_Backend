@@ -206,6 +206,28 @@
         }
       }
     },
+    "/api/Cart/CartItemsForAdmin": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Cart/AddToCart": {
       "post": {
         "tags": [
@@ -405,6 +427,28 @@
         }
       }
     },
+    "/api/Order/GetUserOrder-Admin": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Order/WholeOrdersForAdmin": {
       "get": {
         "tags": [
@@ -475,67 +519,60 @@
         "tags": [
           "Product"
         ],
-        "parameters": [
-          {
-            "name": "Title",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Brand",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Price",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "Description",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "CategoryId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "Image"
+                  "Brand",
+                  "CategoryId",
+                  "Description",
+                  "Image",
+                  "Price",
+                  "Title"
                 ],
                 "type": "object",
                 "properties": {
+                  "Title": {
+                    "type": "string"
+                  },
                   "Image": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "Brand": {
+                    "type": "string"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "CategoryId": {
+                    "type": "integer",
+                    "format": "int32"
                   }
                 }
               },
               "encoding": {
+                "Title": {
+                  "style": "form"
+                },
                 "Image": {
+                  "style": "form"
+                },
+                "Brand": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "CategoryId": {
                   "style": "form"
                 }
               }
@@ -859,6 +896,18 @@
         }
       }
     },
+    "/api/User/GetUserForUser": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/User/Block/Unblock/{id}": {
       "patch": {
         "tags": [
@@ -1101,6 +1150,10 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "title": {
             "minLength": 1,
             "type": "string"

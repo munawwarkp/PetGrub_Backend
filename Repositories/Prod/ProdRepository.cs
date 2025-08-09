@@ -71,8 +71,9 @@ namespace PetGrubBakcend.Repositories.Prod
         {
             try
             {
-                var products = await  _context.Products.ToListAsync();
-                await _context.SaveChangesAsync();
+                var products = await  _context.Products
+                    .Where(p => p.IsActive)
+                    .ToListAsync();
                 return products;
             }
             catch (Exception ex)
@@ -83,8 +84,18 @@ namespace PetGrubBakcend.Repositories.Prod
 
         public async Task UpdateProduct(Product product)
         {
-             _context.Products.Update(product);
-             await _context.SaveChangesAsync();
+            try
+            {
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("error uploading product :");
+                Console.WriteLine(ex.InnerException?.Message ??  ex.Message);
+                throw;
+            }
+            
         }
 
         public async Task<Category?> GetExistingCategory(int categoryId)
@@ -125,8 +136,35 @@ namespace PetGrubBakcend.Repositories.Prod
 
         public async Task DeleteProductAsync(Product product)
         {
-           _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                product.IsActive = false; // 👈 Just mark it as inactive
+
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error while marking product as inactive:");
+                Console.WriteLine(ex.InnerException?.Message ?? ex.Message);
+                throw;
+            }
+
+
+
+            //try
+            //{
+            //    _context.Products.Remove(product);
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch(Exception ex)
+            //{
+            //    Console.WriteLine("error while deleting products :");
+            //    Console.WriteLine(ex.InnerException?.Message ?? ex.Message);
+            //    throw;
+            //}
+
         }
 
         public async Task<List<Product>> SearchProducts(string str)
@@ -137,16 +175,19 @@ namespace PetGrubBakcend.Repositories.Prod
             //}
             try
             {
+                if (string.IsNullOrEmpty(str))
+                    return new List<Product>(); //return empty list for empty search term
+
+                str = str.Trim().ToLower();
+
                 var products = await _context.Products
+                    .AsNoTracking()
                     .Include(p => p.Category)
-                    .Where(pe =>
-                        pe.Category.Name.ToLower().Contains(str) ||
-                        pe.Title.ToLower().Contains(str))
+                    .Where(p =>
+                       EF.Functions.Like(p.Title.ToLower(),$"%{str}%") ||
+                       EF.Functions.Like(p.Category.Name.ToLower(),$"%{str}%") ||
+                        EF.Functions.Like(p.Brand.ToLower(), $"%{str}%"))
                     .ToListAsync();
-                if(products.Count == 0)
-                {
-                    throw new InvalidOperationException("product not found");
-                }
                 return products;
             }
             catch

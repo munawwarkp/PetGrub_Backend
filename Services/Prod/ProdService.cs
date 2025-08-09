@@ -80,10 +80,24 @@ namespace PetGrubBakcend.Services.Prod
                     };
                 }
 
-                product.Title = productUpdateDto.Title;
-                product.Brand = productUpdateDto.Brand;
-                product.Price = productUpdateDto.Price;
-                product.Description = productUpdateDto.Description;
+                // Conditionally update only if value is provided
+                if (!string.IsNullOrWhiteSpace(productUpdateDto.Title))
+                    product.Title = productUpdateDto.Title;
+
+                if (!string.IsNullOrWhiteSpace(productUpdateDto.Brand))
+                    product.Brand = productUpdateDto.Brand;
+
+                if (productUpdateDto.Price.HasValue)
+                    product.Price = productUpdateDto.Price.Value;
+
+                if (!string.IsNullOrWhiteSpace(productUpdateDto.Description))
+                    product.Description = productUpdateDto.Description;
+
+
+                //product.Title = productUpdateDto.Title;
+                //product.Brand = productUpdateDto.Brand;
+                //product.Price = productUpdateDto.Price;
+                //product.Description = productUpdateDto.Description;
 
 
                 if (productUpdateDto.Image != null)
@@ -187,9 +201,9 @@ namespace PetGrubBakcend.Services.Prod
                 {
                     throw new KeyNotFoundException($"product with id {id} not found");
                 }
-                _mapper.Map<ProductReadingDto>(itemToDel);
+                var dto = _mapper.Map<ProductReadingDto>(itemToDel);
                 await _prodRepository.DeleteProductAsync(itemToDel);
-                return _mapper.Map<ProductReadingDto>(itemToDel);
+                return dto;
             }
             catch(Exception ex)
             {

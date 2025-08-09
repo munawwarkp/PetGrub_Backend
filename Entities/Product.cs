@@ -18,6 +18,7 @@ namespace PetGrubBakcend.Entities
         public string Description { get; set; }
 
         public int CategoryID {  get; set; }
+        public bool IsActive { get; set; } = true;
         public Category Category { get; set; }
 
         public ICollection<Wishlist> wishlists { get; set; }

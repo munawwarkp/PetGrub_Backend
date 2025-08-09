@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PetGrubBakcend.DTOs;
@@ -17,6 +18,7 @@ namespace PetGrubBakcend.Controllers
         }
 
         [HttpGet("CartItems")]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             var userId = HttpContext.Items["UserId"]?.ToString(); //userId taken from httpcontext.items
@@ -26,7 +28,16 @@ namespace PetGrubBakcend.Controllers
            
         }
 
+        [HttpGet("CartItemsForAdmin")]
+        [Authorize(Policy ="AdminOnly")]
+        public async Task<IActionResult> GetCartUser([FromQuery]int userId)
+        {
+            var res = await _service.GetCartItems(userId);
+            return StatusCode(res.StatusCode, res);
+        }
+
         [HttpPost("AddToCart")]
+        [Authorize]
         public async Task<IActionResult> AddToCart(int productId)
         {
            var userIdStr = HttpContext.Items["UserId"]?.ToString();
@@ -36,9 +47,9 @@ namespace PetGrubBakcend.Controllers
         }
 
         [HttpDelete("Delete-CartItem")]
-        public async Task<IActionResult> DeleteCart(int productId)
+        public async Task<IActionResult> DeleteCart([FromQuery]int productId)
         {
-           var userIdStr = HttpContext.Items["UserId"]?.ToString();
+            var userIdStr = HttpContext.Items["UserId"]?.ToString();
             bool uId = int.TryParse(userIdStr, out int userId);
 
             var res = await _service.RemoveFromCart(userId, productId);

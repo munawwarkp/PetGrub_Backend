@@ -29,7 +29,7 @@ namespace PetGrubBakcend.Services.Cart
                 {
                     return new ApiResponse<List<CartReadDto>>
                     {
-                        StatusCode = 404,
+                        StatusCode = 200,
                         Message = "cart is null"
                         
                     };
@@ -150,6 +150,8 @@ namespace PetGrubBakcend.Services.Cart
                 //get cart item if exist
                 var cartItem = await _repository.GetCartItem(userId, productId);
 
+                Console.WriteLine(cartItem.Quantity);
+
                 await _repository.RemoveProductFromCart(cartItem);
 
                 //for returning data
@@ -199,6 +201,15 @@ namespace PetGrubBakcend.Services.Cart
                         cartItem.Quantity += 1;
                         break;
                     case CartQuantityAction.Decrement:
+                        if(cartItem.Quantity <= 1)
+                        {
+                            return new ApiResponse<CartReadDto>
+                            {
+                                StatusCode = 400,
+                                Message = "Quantity cannot be less than 1"
+                            };
+                        }
+
                         cartItem.Quantity -= 1;
                         break;
 
@@ -258,6 +269,12 @@ namespace PetGrubBakcend.Services.Cart
 
            
         }
+
+        //public async Task<ApiResponse<List<CartReadDto>>> UpdateCartItem(CartItem cartItem)
+        //{
+            
+        //}
+
 
     }
 }

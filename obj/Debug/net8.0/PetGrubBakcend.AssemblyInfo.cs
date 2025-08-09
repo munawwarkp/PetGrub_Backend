@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetGrubBakcend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d9ba0285ac5eaaea80078e532acbda21d3a4fc2e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6dec3b5baa6e3d39d9782a75c97eb77c23fae44")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetGrubBakcend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetGrubBakcend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

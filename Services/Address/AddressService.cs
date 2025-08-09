@@ -46,6 +46,9 @@ namespace PetGrubBakcend.Services.Address
             }
             catch(Exception ex)
             {
+                var inner = ex.InnerException?.Message;
+                Console.WriteLine($"Address creation error : {ex.Message} | Inner : {inner}");
+
                 return new ApiResponse<AddressReadDto>
                 {
                     StatusCode = 500,

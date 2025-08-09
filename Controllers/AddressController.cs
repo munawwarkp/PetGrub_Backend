@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PetGrubBakcend.ApiResponse;
 using PetGrubBakcend.DTOs;
 using PetGrubBakcend.Services.Address;
 
@@ -19,9 +20,17 @@ namespace PetGrubBakcend.Controllers
         public async Task<IActionResult> AddAddress(AddressCreateDto addressCreateDto)
         {
             var userIdStr = HttpContext.Items["UserId"]?.ToString();
-            bool id = int.TryParse(userIdStr, out int userId);
+            //bool id = int.TryParse(userIdStr, out int userId);
+            if (!int.TryParse(userIdStr, out int userId) || userId <= 0)
+            {
+                return BadRequest(new ApiResponse<AddressReadDto>
+                {
+                    StatusCode = 400,
+                    Message = "Invalid or missing user ID"
+                });
+            }
 
-           var res = await _addressService.CreateAddress(addressCreateDto,userId);
+            var res = await _addressService.CreateAddress(addressCreateDto,userId);
             return StatusCode(res.StatusCode, res);
 
         }

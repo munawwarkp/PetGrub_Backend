@@ -45,7 +45,9 @@ namespace PetGrubBakcend.Repositories.AuthRepository
                 _context.Add(user);
                await _context.SaveChangesAsync();
 
-                return new ApiResponse<object> { StatusCode = 400, Message = "User registered succesfully" };
+                _logger.LogInformation($"user registered email : {user.Email}");
+
+                return new ApiResponse<object> { StatusCode = 200, Message = "User registered succesfully" };
                 
             }catch(DbUpdateException dbEx)
             {

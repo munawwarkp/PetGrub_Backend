@@ -28,15 +28,35 @@ namespace PetGrubBakcend.Repositories.Ord
 
         public async Task CreateOrderDistinctProduct(Order order)
         {
+            //await _context.Orders.AddAsync(order);
+            //await _context.SaveChangesAsync() ;
+
+            // Add Order first
             await _context.Orders.AddAsync(order);
-            await _context.SaveChangesAsync() ;
+
+            // Ensure order items are tracked too
+            if (order.OrderItems != null && order.OrderItems.Any())
+            {
+                await _context.OrderItems.AddRangeAsync(order.OrderItems);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
 
         public async Task CreateBulkOrder(Order order)
         {
+            //await _context.Orders.AddAsync(order);
+            //await _context.SaveChangesAsync() ;
+
             await _context.Orders.AddAsync(order);
-            await _context.SaveChangesAsync() ;
+
+            if (order.OrderItems != null && order.OrderItems.Any())
+            {
+                await _context.OrderItems.AddRangeAsync(order.OrderItems);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List< OrderReadDto>> GetOrderDetails(int userId)
@@ -44,10 +64,10 @@ namespace PetGrubBakcend.Repositories.Ord
            
 
             var query = @"select
-                            sub.OrderId,sub.Brand+' '+sub.Title as Item,sub.Quantity,sub.Price,sub.ImageUrl as Image
+                            sub.OrderId,sub.Brand+' '+sub.Title as Item,sub.Quantity,sub.UnitPrice,sub.TotalPrice,sub.ImageUrl as Image
                           from
                             (
-                                select OrderId,Brand,Title,Quantity,Price,ImageUrl from Orders
+                                select OrderId,Brand,Title,Quantity,OrderItems.UnitPrice as UnitPrice,OrderItems.TotalPrice as TotalPrice,ImageUrl from Orders
                                 left join OrderItems
                                 on OrderItems.OrderId=Orders.Id
                                 left join Products
@@ -65,10 +85,10 @@ namespace PetGrubBakcend.Repositories.Ord
 
 
             var query = @"select
-                            sub.OrderId,sub.Brand+' '+sub.Title as Item,sub.Quantity,sub.Price,sub.ImageUrl as Image
+                            sub.OrderId,sub.Brand+' '+sub.Title as Item,sub.Quantity,sub.UnitPrice,sub.TotalPrice,sub.ImageUrl as Image
                           from
                             (
-                                select OrderId,Brand,Title,Quantity,Price,ImageUrl from Orders
+                                select OrderId,Brand,Title,Quantity,UnitPrice,TotalPrice,ImageUrl from Orders
                                 left join OrderItems
                                 on OrderItems.OrderId=Orders.Id
                                 left join Products

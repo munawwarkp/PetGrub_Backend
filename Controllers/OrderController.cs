@@ -14,10 +14,12 @@ namespace PetGrubBakcend.Controllers
     {
         private readonly IOrderService service;
         private readonly IRazorPayService _razorPayService;
-        public OrderController(IOrderService orderService,IRazorPayService razorService)
+        private readonly IConfiguration _configuration;
+        public OrderController(IOrderService orderService,IRazorPayService razorService,IConfiguration configuration)
         {
             service = orderService;
             _razorPayService = razorService;
+            _configuration = configuration;
         }
 
         [Authorize(Policy = "UserOnly")]
@@ -54,6 +56,14 @@ namespace PetGrubBakcend.Controllers
         }
 
         [Authorize(Policy ="AdminOnly")]
+        [HttpGet("GetUserOrder-Admin")]
+        public async Task<IActionResult> GetUserOrder([FromQuery]int userId)
+        {
+            var res = await service.GetOrders(userId);
+            return StatusCode(res.StatusCode, res);
+        }
+
+        [Authorize(Policy ="AdminOnly")]
         [HttpGet("WholeOrdersForAdmin")]
         public async Task<IActionResult> GetWhole()
         {
@@ -63,26 +73,40 @@ namespace PetGrubBakcend.Controllers
 
 
         //razorpay
-        [Authorize(Policy ="UserOnly")]
+        //[Authorize(Policy ="UserOnly")]
+        //[HttpPost("Razor-CreateOrder")]
+        [Authorize(Policy = "UserOnly")]    
         [HttpPost("Razor-CreateOrder")]
-        public async Task<IActionResult> CreateOrder(long price)
+        public async Task<IActionResult> CreateOrder([FromQuery] long price)
         {
             try
             {
-                if (price < 0)
-                    return BadRequest(new ApiResponse<string> { Message = "enter a valid amount" });
+                if (price <= 0)
+                    return BadRequest(new ApiResponse<string> { Message = "Invalid amount" });
 
-                //call service to create razorpay order
                 var orderId = await _razorPayService.CreatePaymentAsync(price);
 
-                //return order id in response
-                return Ok(new ApiResponse<string> { Message = "Created Order" });
+                var response = new RazorOrderResponseDto
+                {
+                    OrderId = orderId,
+                    Amount = price * 100,
+                    Currency = "INR",
+                    Key = _configuration["Razorpay:KeyId"]
+                };
+
+                return Ok(new ApiResponse<RazorOrderResponseDto>
+                {
+                    StatusCode = 200,
+                    Message = "Created Razorpay Order",
+                    Data = response
+                });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest(new ApiResponse<object> { Message = ex.Message });
+                return BadRequest(new ApiResponse<string> { Message = $"Failed: {ex.Message}" });
             }
         }
+
 
         [Authorize]
         [HttpPost("Razor-PaymentVerify")]
@@ -103,7 +127,7 @@ namespace PetGrubBakcend.Controllers
 
                 if (!res)
                 {
-                    return BadRequest(new ApiResponse<object> { Message = "Error payment verification" });
+                    return BadRequest(new ApiResponse<object> { Message = "Error verifying payment" });
                 }
 
                 return Ok(new ApiResponse<object> { Message = "Payment verified" });
@@ -113,5 +137,25 @@ namespace PetGrubBakcend.Controllers
                 return BadRequest(new ApiResponse<object> { Message = $"Error verifyig payment : {ex.Message}" });
             }
         }
+
+
+        //public async Task<IActionResult> CreateOrder(long price)
+        //{
+        //    try
+        //    {
+        //        if (price < 0)
+        //            return BadRequest(new ApiResponse<string> { Message = "enter a valid amount" });
+
+        //        //call service to create razorpay order
+        //        var orderId = await _razorPayService.CreatePaymentAsync(price);
+
+        //        //return order id in response
+        //        return Ok(new ApiResponse<string> { Message = "Created Order" });
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return BadRequest(new ApiResponse<object> { Message = ex.Message });
+        //    }
+        //}
     }
 }
